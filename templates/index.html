@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoxEmotion AI | Speech Emotion Recognition & Acoustic Intelligence</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="dark-mode">
+
+    <!-- Top Navigation -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#" class="brand-logo">
+                <div class="logo-icon-pulse">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                        <line x1="12" x2="12" y1="19" y2="22"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-title">VoxEmotion<span class="gradient-text">.AI</span></span>
+                    <span class="brand-badge">CodeAlpha Task 2</span>
+                </div>
+            </a>
+
+            <nav class="nav-links">
+                <a href="#voice-studio" class="nav-link active">Voice Lab</a>
+                <a href="#model-benchmarks" class="nav-link">Model Benchmarks</a>
+                <a href="#audio-library" class="nav-link">Audio Library</a>
+                <a href="#batch-analysis" class="nav-link">Batch Testing</a>
+                <a href="#api-docs" class="nav-link">REST API</a>
+            </nav>
+
+            <div class="nav-actions">
+                <div class="status-pill">
+                    <span class="pulse-dot"></span>
+                    <span>Top Model: <strong>NeuralMLP (92.5%)</strong></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-content">
+        
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-glow"></div>
+            <div class="hero-content">
+                <div class="hero-tag">
+                    <span class="hero-tag-dot"></span> Acoustic Speech Emotion Intelligence
+                </div>
+                <h1 class="hero-title">
+                    Real-Time Speech Emotion Recognition & <br/>
+                    <span class="gradient-text-hero">Acoustic Affect Analysis</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Classifies 8 human emotions (Neutral, Calm, Happy, Sad, Angry, Fearful, Disgust, Surprised) directly from voice audio streams using deep neural networks, spectral feature extraction, and 2D Circumplex Affect mapping.
+                </p>
+                
+                <!-- Quick KPI Badges -->
+                <div class="hero-kpis">
+                    <div class="kpi-card">
+                        <div class="kpi-value" id="kpi-accuracy">92.50%</div>
+                        <div class="kpi-label">Top Model Accuracy</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-value">8</div>
+                        <div class="kpi-label">Standard Emotion Classes</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-value">22</div>
+                        <div class="kpi-label">Acoustic Spectral Features</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-value">3</div>
+                        <div class="kpi-label">Ensemble Classifiers</div>
+                    </div>
+                </div>
+
+                <div class="hero-cta-group">
+                    <a href="#voice-studio" class="btn btn-primary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/></svg>
+                        Open Voice Lab Studio
+                    </a>
+                    <a href="#model-benchmarks" class="btn btn-secondary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                        Inspect 8-Class Benchmarks
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Voice Lab Studio Section -->
+        <section id="voice-studio" class="section-container">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Interactive Voice Lab Studio</h2>
+                    <p class="section-subtitle">Record your voice live, upload an audio clip, or load reference emotion samples for instantaneous acoustic inference.</p>
+                </div>
+            </div>
+
+            <!-- Voice Studio Grid -->
+            <div class="studio-grid">
+                <!-- Left Column: Audio Input & Recording Controls -->
+                <div class="glass-card input-panel">
+                    <!-- Tab Switcher for Input Modes -->
+                    <div class="input-mode-tabs">
+                        <button class="mode-tab-btn active" data-mode="presets">Reference Voice Bank</button>
+                        <button class="mode-tab-btn" data-mode="mic">Live Microphone</button>
+                        <button class="mode-tab-btn" data-mode="upload">File Upload</button>
+                    </div>
+
+                    <!-- Mode 1: Presets Voice Bank -->
+                    <div class="mode-content" id="mode-presets">
+                        <p class="mode-desc">Click any vocal sample to play audio and classify its emotional acoustic pattern:</p>
+                        <div class="preset-cards-grid">
+                            {% for sample in samples %}
+                            <div class="preset-audio-card" onclick="loadSample('{{ sample.id }}')">
+                                <div class="preset-card-top">
+                                    <span class="preset-emoji">{{ sample.emoji }}</span>
+                                    <span class="preset-name">{{ sample.label }}</span>
+                                </div>
+                                <span class="preset-play-hint">▶ Click to Analyze</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Mode 2: Live Microphone -->
+                    <div class="mode-content hidden" id="mode-mic">
+                        <div class="mic-recorder-wrap">
+                            <canvas id="waveform-canvas" width="400" height="100"></canvas>
+                            <div class="mic-timer" id="mic-timer">00:00</div>
+                            <div class="mic-controls">
+                                <button class="btn-record" id="btn-record-toggle">
+                                    <span class="rec-dot"></span>
+                                    <span id="rec-label">Start Recording</span>
+                                </button>
+                            </div>
+                            <p class="mic-hint">Speak clearly into your microphone for 2&ndash;5 seconds.</p>
+                        </div>
+                    </div>
+
+                    <!-- Mode 3: File Upload -->
+                    <div class="mode-content hidden" id="mode-upload">
+                        <div class="dropzone" id="audio-dropzone">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                            <h4>Drop Audio Clip Here</h4>
+                            <p>Supports <code>.wav</code>, <code>.mp3</code>, <code>.ogg</code>, <code>.webm</code></p>
+                            <input type="file" id="audio-file-input" accept="audio/*" class="hidden-input">
+                            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('audio-file-input').click()">Browse Files</button>
+                        </div>
+                    </div>
+
+                    <!-- Active Audio Player -->
+                    <div class="audio-player-bar mt-4">
+                        <div class="player-info">
+                            <span class="player-icon">🎵</span>
+                            <span class="player-title" id="player-title">happy_sample.wav</span>
+                        </div>
+                        <audio id="main-audio-player" controls preload="auto" class="native-player">
+                            <source src="/static/samples/happy_sample.wav" type="audio/wav">
+                        </audio>
+                    </div>
+                </div>
+
+                <!-- Right Column: Emotion Analysis Results -->
+                <div class="results-panel">
+                    <!-- Primary Emotion Verdict Card -->
+                    <div class="glass-card verdict-card" id="verdict-card">
+                        <div class="card-header-flex">
+                            <div>
+                                <span class="tag-live">REAL-TIME CLASSIFICATION</span>
+                                <h3 class="card-title mt-1">Detected Speech Emotion</h3>
+                            </div>
+                            <span class="confidence-badge" id="consensus-confidence">94.8% Confidence</span>
+                        </div>
+
+                        <div class="verdict-body">
+                            <div class="verdict-emoji-wrap">
+                                <span class="giant-emoji" id="verdict-emoji">😄</span>
+                            </div>
+                            <div class="verdict-details">
+                                <h2 class="verdict-emotion-name" id="verdict-emotion">HAPPY</h2>
+                                <p class="verdict-desc" id="verdict-desc">
+                                    Elevated dynamic pitch variation, high spectral brightness and joyful energy.
+                                </p>
+                                <div class="secondary-emotion-tag" id="secondary-tag">
+                                    Secondary: <strong>Surprised (4.2%)</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2D Circumplex Affect Plane (Valence vs Arousal) -->
+                        <div class="circumplex-section">
+                            <div class="circumplex-header">
+                                <span class="circumplex-title">2D Circumplex Model of Affect</span>
+                                <span class="circumplex-coords" id="affect-coords">Valence: +0.85 | Arousal: +0.65</span>
+                            </div>
+                            <div class="circumplex-canvas-wrap">
+                                <canvas id="chart-circumplex"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Acoustic Biometrics Strip -->
+                    <div class="glass-card biometrics-card">
+                        <h4 class="card-subtitle">Extracted Acoustic Biometrics</h4>
+                        <div class="biometrics-grid">
+                            <div class="bio-item">
+                                <span class="bio-val" id="bio-pitch">210 Hz</span>
+                                <span class="bio-lbl">Pitch (F0)</span>
+                            </div>
+                            <div class="bio-item">
+                                <span class="bio-val" id="bio-rms">0.095</span>
+                                <span class="bio-lbl">RMS Energy</span>
+                            </div>
+                            <div class="bio-item">
+                                <span class="bio-val" id="bio-centroid">2,200 Hz</span>
+                                <span class="bio-lbl">Spectral Centroid</span>
+                            </div>
+                            <div class="bio-item">
+                                <span class="bio-val" id="bio-zcr">0.090</span>
+                                <span class="bio-lbl">Zero Crossing</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 8-Emotion Probability Distribution Chart -->
+                    <div class="glass-card chart-card">
+                        <div class="chart-header">
+                            <h4 class="chart-title">8-Emotion Probability Spectrum</h4>
+                            <span class="badge-tag">Multi-Model Average</span>
+                        </div>
+                        <div class="chart-canvas-wrap">
+                            <canvas id="chart-emotion-probs"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Model Benchmarks Section -->
+        <section id="model-benchmarks" class="section-container">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Model Benchmarks & Acoustic Lab</h2>
+                    <p class="section-subtitle">Comparative evaluation across Deep Neural MLP, Random Forest, and Support Vector Machine (RBF).</p>
+                </div>
+            </div>
+
+            <!-- Benchmark Charts Grid -->
+            <div class="benchmarks-grid">
+                <!-- Accuracy Comparison Bar Chart -->
+                <div class="glass-card chart-card">
+                    <div class="chart-header">
+                        <h4 class="chart-title">Model Accuracy & F1-Score</h4>
+                        <span class="badge-tag">Test Split (20%)</span>
+                    </div>
+                    <div class="chart-canvas-wrap">
+                        <canvas id="chart-model-comparison"></canvas>
+                    </div>
+                </div>
+
+                <!-- Acoustic Feature Importance Chart -->
+                <div class="glass-card chart-card">
+                    <div class="chart-header">
+                        <h4 class="chart-title">Acoustic Feature Importance</h4>
+                        <span class="badge-tag">Random Forest Weights</span>
+                    </div>
+                    <div class="chart-canvas-wrap">
+                        <canvas id="chart-feature-importance"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8x8 Confusion Matrix -->
+            <div class="confusion-section">
+                <h3 class="subsection-title">8x8 Emotion Confusion Matrix</h3>
+                <div class="glass-card cm-card">
+                    <div class="table-responsive">
+                        <table class="cm-table" id="cm-table">
+                            <thead id="cm-thead">
+                                <!-- Injected dynamically -->
+                            </thead>
+                            <tbody id="cm-tbody">
+                                <!-- Injected dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metrics Table -->
+            <div class="glass-card table-card mt-4">
+                <div class="table-header">
+                    <h4 class="table-title">Performance Summary Table</h4>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table" id="metrics-table">
+                        <thead>
+                            <tr>
+                                <th>Classifier</th>
+                                <th>Accuracy</th>
+                                <th>Precision (Weighted)</th>
+                                <th>Recall (Weighted)</th>
+                                <th>F1-Score</th>
+                                <th>Test Samples</th>
+                            </tr>
+                        </thead>
+                        <tbody id="metrics-tbody">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Audio Sample Library Section -->
+        <section id="audio-library" class="section-container">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Speech Audio Library</h2>
+                    <p class="section-subtitle">Explore harmonic acoustic clips for each emotion with in-browser preview and instant analysis.</p>
+                </div>
+            </div>
+
+            <div class="audio-library-grid">
+                {% for sample in samples %}
+                <div class="glass-card audio-lib-card">
+                    <div class="lib-card-top">
+                        <span class="lib-emoji">{{ sample.emoji }}</span>
+                        <div>
+                            <h4 class="lib-title">{{ sample.label }}</h4>
+                            <span class="lib-sub">Valence: {{ sample.valence }} | Arousal: {{ sample.arousal }}</span>
+                        </div>
+                    </div>
+                    <p class="lib-desc">{{ sample.description }}</p>
+                    <div class="lib-actions">
+                        <audio controls class="native-player-sm" src="{{ sample.audio_url }}"></audio>
+                        <button class="btn btn-primary btn-sm" onclick="loadSample('{{ sample.id }}')">
+                            Analyze in Studio
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Batch Voice Processing Section -->
+        <section id="batch-analysis" class="section-container">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Batch Audio Emotion Processing</h2>
+                    <p class="section-subtitle">Run high-throughput batch evaluation across multiple speech clips.</p>
+                </div>
+            </div>
+
+            <div class="batch-grid">
+                <div class="glass-card batch-upload-card">
+                    <button class="btn btn-primary btn-block" id="btn-run-batch-demo">
+                        ⚡ Evaluate All 8 Voice Bank Samples
+                    </button>
+                </div>
+
+                <div class="glass-card batch-stats-card">
+                    <h4 class="card-subtitle">Batch Portfolio Summary</h4>
+                    <div class="batch-kpi-grid">
+                        <div class="kpi-mini">
+                            <span class="kpi-mini-val" id="batch-total">0</span>
+                            <span class="kpi-mini-lbl">Processed</span>
+                        </div>
+                        <div class="kpi-mini">
+                            <span class="kpi-mini-val good-val" id="batch-top-emo">-</span>
+                            <span class="kpi-mini-lbl">Dominant Emotion</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Batch Results Table -->
+            <div class="glass-card table-card mt-4" id="batch-results-wrapper" style="display: none;">
+                <div class="table-header">
+                    <h4 class="table-title">Batch Emotion Results</h4>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table" id="batch-results-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Audio File</th>
+                                <th>Predicted Emotion</th>
+                                <th>Confidence</th>
+                                <th>Valence</th>
+                                <th>Arousal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="batch-results-tbody">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- REST API Playground -->
+        <section id="api-docs" class="section-container">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Developer REST API Playground</h2>
+                    <p class="section-subtitle">Integrate real-time vocal emotion recognition into call center analytics, voice assistants, and customer sentiment pipelines.</p>
+                </div>
+            </div>
+
+            <div class="glass-card api-card">
+                <div class="api-tabs">
+                    <button class="api-tab active" data-lang="curl">cURL</button>
+                    <button class="api-tab" data-lang="python">Python</button>
+                    <button class="api-tab" data-lang="js">JavaScript</button>
+                </div>
+
+                <div class="api-code-blocks">
+                    <!-- cURL -->
+                    <pre class="code-block active" id="code-curl"><code>curl -X POST http://127.0.0.1:5002/api/predict \
+  -F "file=@voice_recording.wav"</code></pre>
+
+                    <!-- Python -->
+                    <pre class="code-block" id="code-python"><code>import requests
+
+url = "http://127.0.0.1:5002/api/predict"
+with open("voice_recording.wav", "rb") as f:
+    files = {"file": f}
+    response = requests.post(url, files=files)
+
+result = response.json()
+print("Detected Emotion:", result["result"]["consensus"]["label"])
+print("Confidence:", result["result"]["consensus"]["confidence"], "%")
+print("Valence:", result["result"]["consensus"]["valence"])
+print("Arousal:", result["result"]["consensus"]["arousal"])</code></pre>
+
+                    <!-- JS -->
+                    <pre class="code-block" id="code-js"><code>const formData = new FormData();
+formData.append('file', audioBlob, 'recording.wav');
+
+const response = await fetch('http://127.0.0.1:5002/api/predict', {
+  method: 'POST',
+  body: formData
+});
+
+const data = await response.json();
+console.log("Top Emotion:", data.result.consensus.label);</code></pre>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="brand-title">VoxEmotion<span class="gradient-text">.AI</span></span>
+                <p class="footer-desc">CodeAlpha Machine Learning Internship &bull; Task 2: Speech Emotion Recognition</p>
+            </div>
+            <div class="footer-copy">
+                &copy; 2026 CodeAlpha Internship. Educational &amp; Portfolio Project.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom JS Script -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
