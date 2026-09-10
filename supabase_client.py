@@ -1,7 +1,7 @@
 """
 VoxEmotion AI - Supabase Database Client & Cloud Data Layer
 Handles persistent storage of speech emotion inferences, acoustic biometrics,
-affective valence/arousal coordinates, and user feedback in Supabase PostgreSQL.
+affective valence/arousal coordinates, and user feedback in Supabase PostgreSQL via REST API & Client.
 Provides automatic in-memory fallback for local development or unconfigured deployments.
 """
 
@@ -9,6 +9,7 @@ import os
 import uuid
 import datetime
 import logging
+import requests
 from typing import Dict, List, Any, Optional
 from dotenv import load_dotenv
 
@@ -19,31 +20,19 @@ logger = logging.getLogger("VoxEmotion.Supabase")
 logging.basicConfig(level=logging.INFO)
 
 # Supabase Credentials
-SUPABASE_URL = os.environ.get("SUPABASE_URL", "").strip()
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "").strip().rstrip("/")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY", os.environ.get("SUPABASE_SERVICE_ROLE_KEY", os.environ.get("SUPABASE_ANON_KEY", ""))).strip()
-
-# Initialize Client if credentials exist
-supabase_client = None
-if SUPABASE_URL and SUPABASE_KEY:
-    try:
-        from supabase import create_client, Client
-        supabase_client: Optional[Client] = create_client(SUPABASE_URL, SUPABASE_KEY)
-        logger.info(f"Supabase client initialized successfully with URL: {SUPABASE_URL}")
-    except Exception as e:
-        logger.warning(f"Failed to initialize Supabase Python client ({e}). Falling back to HTTP/In-memory.")
-        supabase_client = None
 
 
 class SupabaseDataManager:
     """
-    Manages all database interactions with Supabase PostgreSQL,
+    Manages all database interactions with Supabase PostgreSQL via PostgREST HTTP API,
     including prediction history, analytics summaries, and user feedback.
     """
 
     def __init__(self):
         self.url = SUPABASE_URL
         self.key = SUPABASE_KEY
-        self.client = supabase_client
         # Local in-memory ring buffer for fallback when Supabase is not yet configured
         self._local_history: List[Dict[str, Any]] = [
             {
@@ -90,7 +79,16 @@ class SupabaseDataManager:
 
     def is_configured(self) -> bool:
         """Returns True if Supabase credentials are set."""
-        return bool(self.url and self.key and self.client)
+        return bool(self.url and self.key)
+
+    def _get_headers(self) -> Dict[str, str]:
+        """Returns standard Supabase PostgREST HTTP headers."""
+        return {
+            "apikey": self.key,
+            "Authorization": f"Bearer {self.key}",
+            "Content-Type": "application/json",
+            "Prefer": "return=representation"
+        }
 
     def check_health(self) -> Dict[str, Any]:
         """Tests live connection to Supabase and returns diagnostic status."""
@@ -103,26 +101,27 @@ class SupabaseDataManager:
                 "database_engine": "In-Memory Fallback"
             }
 
-        if not self.client:
-            return {
-                "configured": True,
-                "connected": False,
-                "status": "client_error",
-                "message": "Supabase client failed to initialize. Check package installation and URL.",
-                "database_engine": "Supabase Client Error"
-            }
-
         try:
-            # Query 1 record from predictions table
-            res = self.client.table("predictions").select("id").limit(1).execute()
-            return {
-                "configured": True,
-                "connected": True,
-                "status": "connected",
-                "message": "Successfully connected to Supabase PostgreSQL database!",
-                "database_engine": "Supabase PostgreSQL",
-                "url": self.url.split("//")[-1].split(".")[0] + ".supabase.co"
-            }
+            # Query 1 record from predictions table via PostgREST
+            endpoint = f"{self.url}/rest/v1/predictions?select=id&limit=1"
+            res = requests.get(endpoint, headers=self._get_headers(), timeout=5)
+            if res.status_code in [200, 201, 206]:
+                return {
+                    "configured": True,
+                    "connected": True,
+                    "status": "connected",
+                    "message": "Successfully connected to Supabase PostgreSQL database!",
+                    "database_engine": "Supabase PostgreSQL",
+                    "url": self.url.split("//")[-1].split(".")[0] + ".supabase.co"
+                }
+            else:
+                return {
+                    "configured": True,
+                    "connected": False,
+                    "status": "connection_failed",
+                    "message": f"Supabase responded with HTTP {res.status_code}: {res.text}",
+                    "database_engine": "Supabase (HTTP Error)"
+                }
         except Exception as e:
             return {
                 "configured": True,
@@ -161,11 +160,15 @@ class SupabaseDataManager:
         if len(self._local_history) > 100:
             self._local_history.pop()
 
-        # If Supabase client is live, push to cloud
+        # If Supabase is configured, push to cloud PostgREST
         if self.is_configured():
             try:
-                self.client.table("predictions").insert(record).execute()
-                logger.info(f"Saved prediction {record['id']} to Supabase table 'predictions'.")
+                endpoint = f"{self.url}/rest/v1/predictions"
+                res = requests.post(endpoint, json=record, headers=self._get_headers(), timeout=5)
+                if res.status_code in [200, 201, 204]:
+                    logger.info(f"Saved prediction {record['id']} to Supabase table 'predictions'.")
+                else:
+                    logger.warning(f"Supabase returned status {res.status_code}: {res.text}")
             except Exception as e:
                 logger.warning(f"Could not write prediction to Supabase ({e}). Stored in local buffer.")
 
@@ -177,13 +180,12 @@ class SupabaseDataManager:
         """
         if self.is_configured():
             try:
-                res = self.client.table("predictions") \
-                    .select("*") \
-                    .order("created_at", desc=True) \
-                    .limit(limit) \
-                    .execute()
-                if res.data is not None and len(res.data) > 0:
-                    return res.data
+                endpoint = f"{self.url}/rest/v1/predictions?select=*&order=created_at.desc&limit={limit}"
+                res = requests.get(endpoint, headers=self._get_headers(), timeout=5)
+                if res.status_code == 200:
+                    data = res.json()
+                    if isinstance(data, list) and len(data) > 0:
+                        return data
             except Exception as e:
                 logger.warning(f"Failed to fetch from Supabase ({e}), returning local history.")
 
@@ -206,7 +208,8 @@ class SupabaseDataManager:
 
         if self.is_configured():
             try:
-                self.client.table("emotion_feedback").insert(feedback_entry).execute()
+                endpoint = f"{self.url}/rest/v1/emotion_feedback"
+                requests.post(endpoint, json=feedback_entry, headers=self._get_headers(), timeout=5)
                 logger.info(f"Feedback saved to Supabase for prediction {prediction_id}")
             except Exception as e:
                 logger.warning(f"Could not write feedback to Supabase: {e}")

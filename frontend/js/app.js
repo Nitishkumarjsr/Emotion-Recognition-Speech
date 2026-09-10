@@ -3,9 +3,12 @@
  * Architecture: Vercel Frontend CDN <-> Render ML Backend <-> Supabase Cloud Database
  */
 
+// Default Production Render Backend
+const DEFAULT_RENDER_URL = "https://emotion-recognition-speech.onrender.com";
+
 // Global App State
 const AppState = {
-    apiBaseUrl: localStorage.getItem("vox_api_url") || (window.location.origin.includes("localhost") || window.location.origin.includes("127.0.0.1") ? window.location.origin : (window.VOX_API_URL || "http://127.0.0.1:5002")),
+    apiBaseUrl: localStorage.getItem("vox_api_url") || (window.location.origin.includes("localhost") || window.location.origin.includes("127.0.0.1") ? window.location.origin : (window.VOX_API_URL || DEFAULT_RENDER_URL)),
     currentPredictionId: null,
     currentEmotion: null,
     backendOnline: false,
@@ -141,7 +144,7 @@ function initBackendConfig() {
 
     if (btnResetUrl) {
         btnResetUrl.addEventListener("click", () => {
-            const defaultUrl = window.location.origin.includes("localhost") || window.location.origin.includes("127.0.0.1") ? window.location.origin : "http://127.0.0.1:5002";
+            const defaultUrl = window.location.origin.includes("localhost") || window.location.origin.includes("127.0.0.1") ? window.location.origin : DEFAULT_RENDER_URL;
             inputUrl.value = defaultUrl;
             AppState.apiBaseUrl = defaultUrl;
             localStorage.removeItem("vox_api_url");
