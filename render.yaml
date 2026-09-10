@@ -22,8 +22,6 @@ services:
       - key: CORS_ORIGINS
         value: "*"
       - key: SUPABASE_URL
-        sync: false
-        # Set this to your Supabase project URL (e.g., https://your-project.supabase.co)
+        value: "https://frofwjfaytskhdbmcwoz.supabase.co"
       - key: SUPABASE_KEY
-        sync: false
-        # Set this to your Supabase Anon/Service Role Key
+        value: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyb2Z3amZheXRza2hkYm1jd296Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwMzA4ODMsImV4cCI6MjEwNDYwNjg4M30.bmZ_HYbG_iykML1jlk30FNkj_BJHarrAmdHxJLSNIKI"
