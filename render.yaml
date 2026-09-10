@@ -1,24 +1,17 @@
-# ============================================================================
-# VoxEmotion AI - Render Web Service Blueprint (render.yaml)
-# ============================================================================
-# To deploy with Render Blueprints:
-# 1. Connect your GitHub repository to Render (https://dashboard.render.com).
-# 2. Click "New" -> "Blueprint".
-# 3. Select this repository and click "Apply".
-# ============================================================================
-
 services:
   - type: web
     name: voxemotion-backend
     runtime: python
-    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
-    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:${PORT:-10000} --workers 1 --threads 4 --timeout 120
     healthCheckPath: /api/health
     plan: free
     autoDeploy: true
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.8
+      - key: PORT
+        value: "10000"
       - key: CORS_ORIGINS
         value: "*"
       - key: SUPABASE_URL

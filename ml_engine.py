@@ -10,6 +10,7 @@ import io
 import wave
 import struct
 import warnings
+import joblib
 import numpy as np
 import pandas as pd
 from scipy.io import wavfile
@@ -68,7 +69,27 @@ class SpeechEmotionEngine:
         self.random_state = random_state
         self.samples_per_emotion = samples_per_emotion
 
-        # Synthetic reference dataset based on RAVDESS acoustic feature distribution
+        # 1. Fast Load from Pre-Trained Bundle if available (<0.05s startup)
+        model_file = os.path.join(os.path.dirname(__file__), "speech_emotion_model.joblib")
+        if os.path.exists(model_file):
+            try:
+                bundle = joblib.load(model_file)
+                self.models = bundle["models"]
+                self.metrics = bundle["metrics"]
+                self.confusion_matrices = bundle["confusion_matrices"]
+                self.feature_importances = bundle["feature_importances"]
+                self.best_model_name = bundle.get("best_model_name", "NeuralMLP")
+                self.df = bundle.get("df", None)
+                if self.df is None:
+                    self.df = self._generate_ser_corpus()
+                self.X = self.df[self.FEATURE_NAMES]
+                self.y = self.df["emotion"]
+                self._ensure_sample_audio_files()
+                return
+            except Exception as e:
+                print(f"Notice: Loading joblib failed ({e}), training fresh pipeline...")
+
+        # 2. Fallback: Train from scratch if model file is absent
         self.df = self._generate_ser_corpus()
         self.X = self.df[self.FEATURE_NAMES]
         self.y = self.df["emotion"]
