@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VoxEmotion AI | Speech Emotion Recognition & Acoustic Intelligence</title>
+    <title>Emotion Recognition Speech | VoxEmotion AI</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body class="dark-mode">
 
     <!-- Top Navigation -->
@@ -20,21 +24,22 @@
         <div class="nav-container">
             <a href="#" class="brand-logo">
                 <div class="logo-icon-pulse">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
-                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                        <line x1="12" x2="12" y1="19" y2="22"/>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                        <line x1="12" x2="12" y1="19" y2="22" />
                     </svg>
                 </div>
                 <div class="brand-text">
                     <span class="brand-title">VoxEmotion<span class="gradient-text">.AI</span></span>
-                    <span class="brand-badge">Vercel &bull; Render &bull; Supabase</span>
+                    <span class="brand-badge">Speech Emotion Recognition & Acoustic Intelligence</span>
                 </div>
             </a>
 
             <nav class="nav-links">
                 <a href="#voice-studio" class="nav-link active">Voice Lab</a>
-                <a href="#cloud-database" class="nav-link">Cloud DB</a>
+                <a href="#cloud-database" class="nav-link">Live Telemetry</a>
                 <a href="#model-benchmarks" class="nav-link">Benchmarks</a>
                 <a href="#audio-library" class="nav-link">Audio Bank</a>
                 <a href="#batch-analysis" class="nav-link">Batch Testing</a>
@@ -44,37 +49,36 @@
             <div class="nav-actions">
                 <div class="status-pill" id="backend-status-pill">
                     <span class="pulse-dot"></span>
-                    <span id="backend-status-text">Render Backend: <strong>Connecting...</strong></span>
+                    <span id="backend-status-text">AI Core: <strong>Online</strong></span>
                 </div>
                 <div class="status-pill" id="db-status-pill">
                     <span class="pulse-dot"></span>
-                    <span>Supabase: <strong>Syncing...</strong></span>
+                    <span>Database: <strong>Connected</strong></span>
                 </div>
-                <button class="btn-icon-nav" onclick="openModal('modal-settings')">
-                    ⚙️ <span>API Config</span>
-                </button>
             </div>
         </div>
     </header>
 
     <!-- Main Container -->
     <main class="main-content">
-        
+
         <!-- Hero Section -->
         <section class="hero-section">
             <div class="hero-glow"></div>
             <div class="hero-content">
                 <div class="hero-tag">
-                    <span class="hero-tag-dot"></span> Cloud Acoustic Intelligence Pipeline
+                    <span class="hero-tag-dot"></span> Acoustic Speech Intelligence Pipeline
                 </div>
                 <h1 class="hero-title">
-                    Real-Time Speech Emotion Recognition & <br/>
+                    Real-Time Speech Emotion Recognition & <br />
                     <span class="gradient-text-hero">Acoustic Affect Intelligence</span>
                 </h1>
                 <p class="hero-subtitle">
-                    Classifies 8 human emotions (Neutral, Calm, Happy, Sad, Angry, Fearful, Disgust, Surprised) directly from vocal audio streams using Deep Neural MLP, Random Forest, SVM ensembles, 2D Russell Circumplex mapping, and persistent Supabase PostgreSQL logging.
+                    Classifies 8 human emotions (Neutral, Calm, Happy, Sad, Angry, Fearful, Disgust, Surprised) directly
+                    from vocal audio streams using Deep Neural MLP, Random Forest, SVM ensembles, 2D Russell Circumplex
+                    mapping, and persistent cloud data logging.
                 </p>
-                
+
                 <!-- Quick KPI Badges -->
                 <div class="hero-kpis">
                     <div class="kpi-card">
@@ -94,19 +98,27 @@
                         <div class="kpi-label">Ensemble Classifiers</div>
                     </div>
                     <div class="kpi-card">
-                        <div class="kpi-value">Cloud</div>
-                        <div class="kpi-label">Supabase Database</div>
+                        <div class="kpi-value">Real-Time</div>
+                        <div class="kpi-label">Cloud Telemetry</div>
                     </div>
                 </div>
 
                 <div class="hero-cta-group">
                     <a href="#voice-studio" class="btn btn-primary">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/></svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+                        </svg>
                         Open Voice Lab Studio
                     </a>
                     <a href="#cloud-database" class="btn btn-secondary">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
-                        View Supabase History
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <ellipse cx="12" cy="5" rx="9" ry="3" />
+                            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+                            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+                        </svg>
+                        View Live Telemetry
                     </a>
                 </div>
             </div>
@@ -117,7 +129,8 @@
             <div class="section-header">
                 <div>
                     <h2 class="section-title">Interactive Voice Lab Studio</h2>
-                    <p class="section-subtitle">Record your speech live, upload an audio clip, or load reference emotion samples for instantaneous acoustic inference.</p>
+                    <p class="section-subtitle">Record your speech live, upload an audio clip, or load reference emotion
+                        samples for instantaneous acoustic inference.</p>
                 </div>
             </div>
 
@@ -134,38 +147,47 @@
 
                     <!-- Mode 1: Presets Voice Bank -->
                     <div class="mode-content" id="mode-presets">
-                        <p class="mode-desc">Click any vocal sample to play harmonic audio and classify its emotional acoustics:</p>
+                        <p class="mode-desc">Click any vocal sample to play harmonic audio and classify its emotional
+                            acoustics:</p>
                         <div class="preset-cards-grid">
                             <div class="preset-audio-card" onclick="loadPresetSample('happy')">
-                                <div class="preset-card-top"><span class="preset-emoji">😄</span><span class="preset-name">Happy</span></div>
+                                <div class="preset-card-top"><span class="preset-emoji">😄</span><span
+                                        class="preset-name">Happy</span></div>
                                 <span class="preset-play-hint">▶ Click to Analyze</span>
                             </div>
                             <div class="preset-audio-card" onclick="loadPresetSample('calm')">
-                                <div class="preset-card-top"><span class="preset-emoji">😌</span><span class="preset-name">Calm</span></div>
+                                <div class="preset-card-top"><span class="preset-emoji">😌</span><span
+                                        class="preset-name">Calm</span></div>
                                 <span class="preset-play-hint">▶ Click to Analyze</span>
                             </div>
                             <div class="preset-audio-card" onclick="loadPresetSample('angry')">
-                                <div class="preset-card-top"><span class="preset-emoji">😡</span><span class="preset-name">Angry</span></div>
+                                <div class="preset-card-top"><span class="preset-emoji">😡</span><span
+                                        class="preset-name">Angry</span></div>
                                 <span class="preset-play-hint">▶ Click to Analyze</span>
                             </div>
                             <div class="preset-audio-card" onclick="loadPresetSample('sad')">
-                                <div class="preset-card-top"><span class="preset-emoji">😢</span><span class="preset-name">Sad</span></div>
+                                <div class="preset-card-top"><span class="preset-emoji">😢</span><span
+                                        class="preset-name">Sad</span></div>
                                 <span class="preset-play-hint">▶ Click to Analyze</span>
                             </div>
                             <div class="preset-audio-card" onclick="loadPresetSample('fearful')">
-                                <div class="preset-card-top"><span class="preset-emoji">😨</span><span class="preset-name">Fearful</span></div>
+                                <div class="preset-card-top"><span class="preset-emoji">😨</span><span
+                                        class="preset-name">Fearful</span></div>
                                 <span class="preset-play-hint">▶ Click to Analyze</span>
                             </div>
                             <div class="preset-audio-card" onclick="loadPresetSample('disgust')">
-                                <div class="preset-card-top"><span class="preset-emoji">🤢</span><span class="preset-name">Disgust</span></div>
+                                <div class="preset-card-top"><span class="preset-emoji">🤢</span><span
+                                        class="preset-name">Disgust</span></div>
                                 <span class="preset-play-hint">▶ Click to Analyze</span>
                             </div>
                             <div class="preset-audio-card" onclick="loadPresetSample('surprised')">
-                                <div class="preset-card-top"><span class="preset-emoji">😲</span><span class="preset-name">Surprised</span></div>
+                                <div class="preset-card-top"><span class="preset-emoji">😲</span><span
+                                        class="preset-name">Surprised</span></div>
                                 <span class="preset-play-hint">▶ Click to Analyze</span>
                             </div>
                             <div class="preset-audio-card" onclick="loadPresetSample('neutral')">
-                                <div class="preset-card-top"><span class="preset-emoji">😐</span><span class="preset-name">Neutral</span></div>
+                                <div class="preset-card-top"><span class="preset-emoji">😐</span><span
+                                        class="preset-name">Neutral</span></div>
                                 <span class="preset-play-hint">▶ Click to Analyze</span>
                             </div>
                         </div>
@@ -189,11 +211,17 @@
                     <!-- Mode 3: File Upload -->
                     <div class="mode-content hidden" id="mode-upload">
                         <div class="dropzone" id="audio-dropzone">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.8">
+                                <path d="M9 18V5l12-2v13" />
+                                <circle cx="6" cy="18" r="3" />
+                                <circle cx="18" cy="16" r="3" />
+                            </svg>
                             <h4>Drop Audio Clip Here</h4>
                             <p>Supports <code>.wav</code>, <code>.mp3</code>, <code>.ogg</code>, <code>.webm</code></p>
                             <input type="file" id="audio-file-input" accept="audio/*" class="hidden-input">
-                            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('audio-file-input').click()">Browse Files</button>
+                            <button class="btn btn-secondary btn-sm"
+                                onclick="document.getElementById('audio-file-input').click()">Browse Files</button>
                         </div>
                     </div>
 
@@ -285,16 +313,16 @@
             </div>
         </section>
 
-        <!-- Supabase Cloud Database & Live Feed Section -->
+        <!-- Live Cloud Telemetry & Feed Section -->
         <section id="cloud-database" class="section-container">
             <div class="section-header">
                 <div>
-                    <h2 class="section-title">Supabase Cloud Database & Live Inferences</h2>
-                    <p class="section-subtitle">Real-time prediction logs and affective telemetry saved directly into Supabase PostgreSQL.</p>
+                    <h2 class="section-title">Live Cloud Telemetry & Inferences</h2>
+                    <p class="section-subtitle">Real-time prediction logs and affective telemetry saved directly to cloud storage.</p>
                 </div>
                 <div class="db-actions-bar">
                     <button class="btn btn-secondary btn-sm" onclick="loadSupabaseHistory(); loadSupabaseAnalytics();">
-                        🔄 Refresh Database
+                        🔄 Refresh Telemetry
                     </button>
                 </div>
             </div>
@@ -302,7 +330,7 @@
             <!-- Analytics Summary Row -->
             <div class="hero-kpis" style="margin-bottom: 1.5rem; max-width: 100%;">
                 <div class="kpi-card">
-                    <div class="kpi-value" id="analytics-total">3</div>
+                    <div class="kpi-value" id="analytics-total">4</div>
                     <div class="kpi-label">Total Predictions Logged</div>
                 </div>
                 <div class="kpi-card">
@@ -315,11 +343,11 @@
                 </div>
                 <div class="kpi-card">
                     <div class="kpi-value">PostgreSQL</div>
-                    <div class="kpi-label">Supabase Engine</div>
+                    <div class="kpi-label">Database Engine</div>
                 </div>
                 <div class="kpi-card">
                     <div class="kpi-value">Active</div>
-                    <div class="kpi-label">RLS Security Status</div>
+                    <div class="kpi-label">Security & RLS</div>
                 </div>
             </div>
 
@@ -339,7 +367,10 @@
                             </tr>
                         </thead>
                         <tbody id="history-table-body">
-                            <tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem;">Loading live Supabase stream...</td></tr>
+                            <tr>
+                                <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                                    Loading live telemetry stream...</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -351,7 +382,8 @@
             <div class="section-header">
                 <div>
                     <h2 class="section-title">Tri-Model Benchmarks & Acoustic Importances</h2>
-                    <p class="section-subtitle">Comparative evaluation across Neural MLP, Random Forest, and SVM classifiers on the 8-class emotion corpus.</p>
+                    <p class="section-subtitle">Comparative evaluation across Neural MLP, Random Forest, and SVM
+                        classifiers on the 8-class emotion corpus.</p>
                 </div>
             </div>
 
@@ -360,30 +392,51 @@
                 <div class="model-comp-card champion">
                     <span class="champ-badge">Champion</span>
                     <h3 class="model-name">Deep Neural MLP</h3>
-                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Multi-Layer Perceptron with 2 hidden layers (128, 64) and Adam optimizer.</p>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Multi-Layer Perceptron
+                        with 2 hidden layers (128, 64) and Adam optimizer.</p>
                     <div class="model-stats-grid">
-                        <div class="m-stat"><div class="m-stat-val" id="metric-neuralmlp-acc">92.50%</div><div class="m-stat-lbl">Accuracy</div></div>
-                        <div class="m-stat"><div class="m-stat-val" id="metric-neuralmlp-f1">0.9248</div><div class="m-stat-lbl">F1-Score</div></div>
+                        <div class="m-stat">
+                            <div class="m-stat-val" id="metric-neuralmlp-acc">92.50%</div>
+                            <div class="m-stat-lbl">Accuracy</div>
+                        </div>
+                        <div class="m-stat">
+                            <div class="m-stat-val" id="metric-neuralmlp-f1">0.9248</div>
+                            <div class="m-stat-lbl">F1-Score</div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Random Forest -->
                 <div class="model-comp-card">
                     <h3 class="model-name">Random Forest</h3>
-                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">150 Decision Trees with Gini impurity split criterion and acoustic feature ranking.</p>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">150 Decision Trees with
+                        Gini impurity split criterion and acoustic feature ranking.</p>
                     <div class="model-stats-grid">
-                        <div class="m-stat"><div class="m-stat-val" id="metric-randomforest-acc">89.75%</div><div class="m-stat-lbl">Accuracy</div></div>
-                        <div class="m-stat"><div class="m-stat-val" id="metric-randomforest-f1">0.8970</div><div class="m-stat-lbl">F1-Score</div></div>
+                        <div class="m-stat">
+                            <div class="m-stat-val" id="metric-randomforest-acc">89.75%</div>
+                            <div class="m-stat-lbl">Accuracy</div>
+                        </div>
+                        <div class="m-stat">
+                            <div class="m-stat-val" id="metric-randomforest-f1">0.8970</div>
+                            <div class="m-stat-lbl">F1-Score</div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- SVM -->
                 <div class="model-comp-card">
                     <h3 class="model-name">Support Vector Machine</h3>
-                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Radial Basis Function (RBF) kernel with Platt calibrated posterior probabilities.</p>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Radial Basis Function
+                        (RBF) kernel with Platt calibrated posterior probabilities.</p>
                     <div class="model-stats-grid">
-                        <div class="m-stat"><div class="m-stat-val" id="metric-svm-acc">88.50%</div><div class="m-stat-lbl">Accuracy</div></div>
-                        <div class="m-stat"><div class="m-stat-val" id="metric-svm-f1">0.8842</div><div class="m-stat-lbl">F1-Score</div></div>
+                        <div class="m-stat">
+                            <div class="m-stat-val" id="metric-svm-acc">88.50%</div>
+                            <div class="m-stat-lbl">Accuracy</div>
+                        </div>
+                        <div class="m-stat">
+                            <div class="m-stat-val" id="metric-svm-f1">0.8842</div>
+                            <div class="m-stat-lbl">F1-Score</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -417,44 +470,67 @@
 
             <div class="audio-library-grid">
                 <div class="lib-card">
-                    <div class="lib-header"><span class="lib-emoji">😄</span><h4 class="lib-title">Happy</h4></div>
+                    <div class="lib-header"><span class="lib-emoji">😄</span>
+                        <h4 class="lib-title">Happy</h4>
+                    </div>
                     <p class="lib-desc">Elevated pitch, dynamic frequency contours, and high harmonic resonance.</p>
-                    <button class="btn btn-secondary btn-sm" onclick="loadPresetSample('happy')">▶ Play & Predict</button>
+                    <button class="btn btn-secondary btn-sm" onclick="loadPresetSample('happy')">▶ Play &
+                        Predict</button>
                 </div>
                 <div class="lib-card">
-                    <div class="lib-header"><span class="lib-emoji">😌</span><h4 class="lib-title">Calm</h4></div>
+                    <div class="lib-header"><span class="lib-emoji">😌</span>
+                        <h4 class="lib-title">Calm</h4>
+                    </div>
                     <p class="lib-desc">Low energy, relaxed inflection, and smooth harmonic transitions.</p>
-                    <button class="btn btn-secondary btn-sm" onclick="loadPresetSample('calm')">▶ Play & Predict</button>
+                    <button class="btn btn-secondary btn-sm" onclick="loadPresetSample('calm')">▶ Play &
+                        Predict</button>
                 </div>
                 <div class="lib-card">
-                    <div class="lib-header"><span class="lib-emoji">😡</span><h4 class="lib-title">Angry</h4></div>
+                    <div class="lib-header"><span class="lib-emoji">😡</span>
+                        <h4 class="lib-title">Angry</h4>
+                    </div>
                     <p class="lib-desc">Sharp attack, high RMS energy, and elevated upper harmonics.</p>
-                    <button class="btn btn-secondary btn-sm" onclick="loadPresetSample('angry')">▶ Play & Predict</button>
+                    <button class="btn btn-secondary btn-sm" onclick="loadPresetSample('angry')">▶ Play &
+                        Predict</button>
                 </div>
                 <div class="lib-card">
-                    <div class="lib-header"><span class="lib-emoji">😢</span><h4 class="lib-title">Sad</h4></div>
+                    <div class="lib-header"><span class="lib-emoji">😢</span>
+                        <h4 class="lib-title">Sad</h4>
+                    </div>
                     <p class="lib-desc">Subdued loudness, downward pitch trend, and lower spectral energy.</p>
                     <button class="btn btn-secondary btn-sm" onclick="loadPresetSample('sad')">▶ Play & Predict</button>
                 </div>
                 <div class="lib-card">
-                    <div class="lib-header"><span class="lib-emoji">😨</span><h4 class="lib-title">Fearful</h4></div>
+                    <div class="lib-header"><span class="lib-emoji">😨</span>
+                        <h4 class="lib-title">Fearful</h4>
+                    </div>
                     <p class="lib-desc">High pitch jitter, wide dynamic range, and vocal tension.</p>
-                    <button class="btn btn-secondary btn-sm" onclick="loadPresetSample('fearful')">▶ Play & Predict</button>
+                    <button class="btn btn-secondary btn-sm" onclick="loadPresetSample('fearful')">▶ Play &
+                        Predict</button>
                 </div>
                 <div class="lib-card">
-                    <div class="lib-header"><span class="lib-emoji">🤢</span><h4 class="lib-title">Disgust</h4></div>
+                    <div class="lib-header"><span class="lib-emoji">🤢</span>
+                        <h4 class="lib-title">Disgust</h4>
+                    </div>
                     <p class="lib-desc">Guttural vocal texture with distinctive spectral tilt.</p>
-                    <button class="btn btn-secondary btn-sm" onclick="loadPresetSample('disgust')">▶ Play & Predict</button>
+                    <button class="btn btn-secondary btn-sm" onclick="loadPresetSample('disgust')">▶ Play &
+                        Predict</button>
                 </div>
                 <div class="lib-card">
-                    <div class="lib-header"><span class="lib-emoji">😲</span><h4 class="lib-title">Surprised</h4></div>
+                    <div class="lib-header"><span class="lib-emoji">😲</span>
+                        <h4 class="lib-title">Surprised</h4>
+                    </div>
                     <p class="lib-desc">Sudden upward pitch leap and fast vocal onset.</p>
-                    <button class="btn btn-secondary btn-sm" onclick="loadPresetSample('surprised')">▶ Play & Predict</button>
+                    <button class="btn btn-secondary btn-sm" onclick="loadPresetSample('surprised')">▶ Play &
+                        Predict</button>
                 </div>
                 <div class="lib-card">
-                    <div class="lib-header"><span class="lib-emoji">😐</span><h4 class="lib-title">Neutral</h4></div>
+                    <div class="lib-header"><span class="lib-emoji">😐</span>
+                        <h4 class="lib-title">Neutral</h4>
+                    </div>
                     <p class="lib-desc">Standard baseline speech with stable pitch and moderate dynamics.</p>
-                    <button class="btn btn-secondary btn-sm" onclick="loadPresetSample('neutral')">▶ Play & Predict</button>
+                    <button class="btn btn-secondary btn-sm" onclick="loadPresetSample('neutral')">▶ Play &
+                        Predict</button>
                 </div>
             </div>
         </section>
@@ -485,7 +561,10 @@
                             </tr>
                         </thead>
                         <tbody id="batch-results-body">
-                            <tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 2rem;">Click 'Run 8-Class Benchmark Batch' to evaluate all standard samples.</td></tr>
+                            <tr>
+                                <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                                    Click 'Run 8-Class Benchmark Batch' to evaluate all standard samples.</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -497,7 +576,7 @@
             <div class="section-header">
                 <div>
                     <h2 class="section-title">Developer REST API Playground</h2>
-                    <p class="section-subtitle">Interact with the Render ML backend and Supabase database using standard HTTP clients.</p>
+                    <p class="section-subtitle">Interact with the Speech Emotion Recognition API using standard HTTP clients.</p>
                 </div>
             </div>
 
@@ -508,14 +587,14 @@
                     <button class="api-tab" data-lang="py">Python (Requests)</button>
                 </div>
 
-                <pre class="code-block active" id="snippet-curl"><code>curl -X POST "http://127.0.0.1:5002/api/predict" \
+                <pre class="code-block active" id="snippet-curl"><code>curl -X POST "/api/predict" \
   -F "file=@/path/to/speech.wav" \
   -H "Accept: application/json"</code></pre>
 
                 <pre class="code-block" id="snippet-js"><code>const formData = new FormData();
 formData.append("file", audioBlob, "speech.wav");
 
-const response = await fetch("http://127.0.0.1:5002/api/predict", {
+const response = await fetch("/api/predict", {
   method: "POST",
   body: formData
 });
@@ -535,30 +614,7 @@ print(response.json())</code></pre>
 
     </main>
 
-    <!-- Modal 1: Backend Connection Settings -->
-    <div class="modal-overlay" id="modal-settings">
-        <div class="modal-card">
-            <div class="modal-header">
-                <h3 class="modal-title">⚙️ Backend & API Configuration</h3>
-                <button class="modal-close" onclick="closeModal('modal-settings')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label">Render Backend API Base URL</label>
-                    <input type="text" class="form-input" id="backend-url-input" placeholder="https://emotion-recognition-speech.onrender.com or http://127.0.0.1:5002">
-                    <p class="form-hint">Enter your deployed Render backend URL or local Flask address.</p>
-                </div>
-                <div id="test-result-msg" style="margin: 0.85rem 0; font-size: 0.85rem; min-height: 24px;"></div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary btn-sm" id="btn-reset-backend-url">Reset to Local</button>
-                <button class="btn btn-secondary btn-sm" id="btn-test-backend-url">Test Connection</button>
-                <button class="btn btn-primary btn-sm" id="btn-save-backend-url">Save & Connect</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal 2: Prediction Feedback & Supabase Sync -->
+    <!-- Prediction Feedback & Validation Modal -->
     <div class="modal-overlay" id="modal-feedback">
         <div class="modal-card">
             <div class="modal-header">
@@ -591,12 +647,13 @@ print(response.json())</code></pre>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Optional Comments / Acoustic Notes</label>
-                    <textarea class="form-textarea" id="feedback-comments" rows="3" placeholder="Voice pitch was elevated, classification was accurate..."></textarea>
+                    <textarea class="form-textarea" id="feedback-comments" rows="3"
+                        placeholder="Voice pitch was elevated, classification was accurate..."></textarea>
                 </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-feedback')">Cancel</button>
-                <button class="btn btn-primary btn-sm" id="btn-submit-feedback">Submit to Supabase</button>
+                <button class="btn btn-primary btn-sm" id="btn-submit-feedback">Submit Feedback</button>
             </div>
         </div>
     </div>
@@ -606,7 +663,7 @@ print(response.json())</code></pre>
         <div class="footer-container">
             <div>
                 <strong>VoxEmotion AI &bull; Speech Emotion Recognition System</strong>
-                <p class="footer-desc">Deployed across Vercel (Edge Frontend), Render (Python ML Backend), and Supabase (PostgreSQL Cloud Database).</p>
+                <p class="footer-desc">Acoustic Intelligence & Real-Time Emotion Classification Platform.</p>
             </div>
             <span class="footer-copy">CodeAlpha Machine Learning Internship &bull; Task 2</span>
         </div>
@@ -615,4 +672,5 @@ print(response.json())</code></pre>
     <!-- App JavaScript -->
     <script src="js/app.js"></script>
 </body>
+
 </html>

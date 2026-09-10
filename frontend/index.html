@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emotion Recognition Speech</title>
+    <title>Emotion Recognition Speech | VoxEmotion AI</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,13 +33,13 @@
                 </div>
                 <div class="brand-text">
                     <span class="brand-title">VoxEmotion<span class="gradient-text">.AI</span></span>
-                    <span class="brand-badge">Vercel &bull; Render &bull; Supabase</span>
+                    <span class="brand-badge">Speech Emotion Recognition & Acoustic Intelligence</span>
                 </div>
             </a>
 
             <nav class="nav-links">
                 <a href="#voice-studio" class="nav-link active">Voice Lab</a>
-                <a href="#cloud-database" class="nav-link">Cloud DB</a>
+                <a href="#cloud-database" class="nav-link">Live Telemetry</a>
                 <a href="#model-benchmarks" class="nav-link">Benchmarks</a>
                 <a href="#audio-library" class="nav-link">Audio Bank</a>
                 <a href="#batch-analysis" class="nav-link">Batch Testing</a>
@@ -49,15 +49,12 @@
             <div class="nav-actions">
                 <div class="status-pill" id="backend-status-pill">
                     <span class="pulse-dot"></span>
-                    <span id="backend-status-text">Render Backend: <strong>Connecting...</strong></span>
+                    <span id="backend-status-text">AI Core: <strong>Online</strong></span>
                 </div>
                 <div class="status-pill" id="db-status-pill">
                     <span class="pulse-dot"></span>
-                    <span>Supabase: <strong>Syncing...</strong></span>
+                    <span>Database: <strong>Connected</strong></span>
                 </div>
-                <button class="btn-icon-nav" onclick="openModal('modal-settings')">
-                    ⚙️ <span>API Config</span>
-                </button>
             </div>
         </div>
     </header>
@@ -70,7 +67,7 @@
             <div class="hero-glow"></div>
             <div class="hero-content">
                 <div class="hero-tag">
-                    <span class="hero-tag-dot"></span> Cloud Acoustic Intelligence Pipeline
+                    <span class="hero-tag-dot"></span> Acoustic Speech Intelligence Pipeline
                 </div>
                 <h1 class="hero-title">
                     Real-Time Speech Emotion Recognition & <br />
@@ -79,7 +76,7 @@
                 <p class="hero-subtitle">
                     Classifies 8 human emotions (Neutral, Calm, Happy, Sad, Angry, Fearful, Disgust, Surprised) directly
                     from vocal audio streams using Deep Neural MLP, Random Forest, SVM ensembles, 2D Russell Circumplex
-                    mapping, and persistent Supabase PostgreSQL logging.
+                    mapping, and persistent cloud data logging.
                 </p>
 
                 <!-- Quick KPI Badges -->
@@ -101,8 +98,8 @@
                         <div class="kpi-label">Ensemble Classifiers</div>
                     </div>
                     <div class="kpi-card">
-                        <div class="kpi-value">Cloud</div>
-                        <div class="kpi-label">Supabase Database</div>
+                        <div class="kpi-value">Real-Time</div>
+                        <div class="kpi-label">Cloud Telemetry</div>
                     </div>
                 </div>
 
@@ -121,7 +118,7 @@
                             <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
                             <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
                         </svg>
-                        View Supabase History
+                        View Live Telemetry
                     </a>
                 </div>
             </div>
@@ -271,8 +268,7 @@
                         <div class="circumplex-section">
                             <div class="circumplex-header">
                                 <span class="circumplex-title">2D Circumplex Model of Affect</span>
-                                <span class="circumplex-coords" id="affect-coords">Valence: +0.85 | Arousal:
-                                    +0.65</span>
+                                <span class="circumplex-coords" id="affect-coords">Valence: +0.85 | Arousal: +0.65</span>
                             </div>
                             <div class="circumplex-canvas-wrap">
                                 <canvas id="chart-circumplex"></canvas>
@@ -317,17 +313,16 @@
             </div>
         </section>
 
-        <!-- Supabase Cloud Database & Live Feed Section -->
+        <!-- Live Cloud Telemetry & Feed Section -->
         <section id="cloud-database" class="section-container">
             <div class="section-header">
                 <div>
-                    <h2 class="section-title">Supabase Cloud Database & Live Inferences</h2>
-                    <p class="section-subtitle">Real-time prediction logs and affective telemetry saved directly into
-                        Supabase PostgreSQL.</p>
+                    <h2 class="section-title">Live Cloud Telemetry & Inferences</h2>
+                    <p class="section-subtitle">Real-time prediction logs and affective telemetry saved directly to cloud storage.</p>
                 </div>
                 <div class="db-actions-bar">
                     <button class="btn btn-secondary btn-sm" onclick="loadSupabaseHistory(); loadSupabaseAnalytics();">
-                        🔄 Refresh Database
+                        🔄 Refresh Telemetry
                     </button>
                 </div>
             </div>
@@ -335,7 +330,7 @@
             <!-- Analytics Summary Row -->
             <div class="hero-kpis" style="margin-bottom: 1.5rem; max-width: 100%;">
                 <div class="kpi-card">
-                    <div class="kpi-value" id="analytics-total">3</div>
+                    <div class="kpi-value" id="analytics-total">4</div>
                     <div class="kpi-label">Total Predictions Logged</div>
                 </div>
                 <div class="kpi-card">
@@ -348,11 +343,11 @@
                 </div>
                 <div class="kpi-card">
                     <div class="kpi-value">PostgreSQL</div>
-                    <div class="kpi-label">Supabase Engine</div>
+                    <div class="kpi-label">Database Engine</div>
                 </div>
                 <div class="kpi-card">
                     <div class="kpi-value">Active</div>
-                    <div class="kpi-label">RLS Security Status</div>
+                    <div class="kpi-label">Security & RLS</div>
                 </div>
             </div>
 
@@ -374,7 +369,7 @@
                         <tbody id="history-table-body">
                             <tr>
                                 <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem;">
-                                    Loading live Supabase stream...</td>
+                                    Loading live telemetry stream...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -545,8 +540,7 @@
             <div class="section-header">
                 <div>
                     <h2 class="section-title">Batch Audio Evaluation</h2>
-                    <p class="section-subtitle">Evaluate multiple speech audio recordings in a single parallel batch.
-                    </p>
+                    <p class="section-subtitle">Evaluate multiple speech audio recordings in a single parallel batch.</p>
                 </div>
                 <button class="btn btn-primary btn-sm" id="btn-run-batch-demo">
                     Run 8-Class Benchmark Batch
@@ -582,8 +576,7 @@
             <div class="section-header">
                 <div>
                     <h2 class="section-title">Developer REST API Playground</h2>
-                    <p class="section-subtitle">Interact with the Render ML backend and Supabase database using standard
-                        HTTP clients.</p>
+                    <p class="section-subtitle">Interact with the Speech Emotion Recognition API using standard HTTP clients.</p>
                 </div>
             </div>
 
@@ -594,14 +587,14 @@
                     <button class="api-tab" data-lang="py">Python (Requests)</button>
                 </div>
 
-                <pre class="code-block active" id="snippet-curl"><code>curl -X POST "http://127.0.0.1:5002/api/predict" \
+                <pre class="code-block active" id="snippet-curl"><code>curl -X POST "/api/predict" \
   -F "file=@/path/to/speech.wav" \
   -H "Accept: application/json"</code></pre>
 
                 <pre class="code-block" id="snippet-js"><code>const formData = new FormData();
 formData.append("file", audioBlob, "speech.wav");
 
-const response = await fetch("http://127.0.0.1:5002/api/predict", {
+const response = await fetch("/api/predict", {
   method: "POST",
   body: formData
 });
@@ -621,31 +614,7 @@ print(response.json())</code></pre>
 
     </main>
 
-    <!-- Modal 1: Backend Connection Settings -->
-    <div class="modal-overlay" id="modal-settings">
-        <div class="modal-card">
-            <div class="modal-header">
-                <h3 class="modal-title">⚙️ Backend & API Configuration</h3>
-                <button class="modal-close" onclick="closeModal('modal-settings')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label">Render Backend API Base URL</label>
-                    <input type="text" class="form-input" id="backend-url-input"
-                        placeholder="https://emotion-recognition-speech.onrender.com or http://127.0.0.1:5002">
-                    <p class="form-hint">Enter your deployed Render backend URL or local Flask address.</p>
-                </div>
-                <div id="test-result-msg" style="margin: 0.85rem 0; font-size: 0.85rem; min-height: 24px;"></div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary btn-sm" id="btn-reset-backend-url">Reset to Local</button>
-                <button class="btn btn-secondary btn-sm" id="btn-test-backend-url">Test Connection</button>
-                <button class="btn btn-primary btn-sm" id="btn-save-backend-url">Save & Connect</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal 2: Prediction Feedback & Supabase Sync -->
+    <!-- Prediction Feedback & Validation Modal -->
     <div class="modal-overlay" id="modal-feedback">
         <div class="modal-card">
             <div class="modal-header">
@@ -684,7 +653,7 @@ print(response.json())</code></pre>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-feedback')">Cancel</button>
-                <button class="btn btn-primary btn-sm" id="btn-submit-feedback">Submit to Supabase</button>
+                <button class="btn btn-primary btn-sm" id="btn-submit-feedback">Submit Feedback</button>
             </div>
         </div>
     </div>
@@ -694,8 +663,7 @@ print(response.json())</code></pre>
         <div class="footer-container">
             <div>
                 <strong>VoxEmotion AI &bull; Speech Emotion Recognition System</strong>
-                <p class="footer-desc">Deployed across Vercel (Edge Frontend), Render (Python ML Backend), and Supabase
-                    (PostgreSQL Cloud Database).</p>
+                <p class="footer-desc">Acoustic Intelligence & Real-Time Emotion Classification Platform.</p>
             </div>
             <span class="footer-copy">CodeAlpha Machine Learning Internship &bull; Task 2</span>
         </div>

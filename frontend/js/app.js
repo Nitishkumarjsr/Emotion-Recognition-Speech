@@ -73,21 +73,21 @@ async function testBackendConnection(showToast = true) {
             if (statusPill) {
                 statusPill.className = "status-pill";
                 statusPill.querySelector(".pulse-dot").className = "pulse-dot";
-                if (statusText) statusText.innerHTML = `Render Backend: <strong>Online (${latency}ms)</strong>`;
+                if (statusText) statusText.innerHTML = `AI Core: <strong>Online</strong>`;
             }
 
             if (dbStatusPill) {
                 if (AppState.supabaseOnline) {
                     dbStatusPill.className = "status-pill";
-                    dbStatusPill.innerHTML = `<span class="pulse-dot"></span><span>Supabase: <strong>Synced</strong></span>`;
+                    dbStatusPill.innerHTML = `<span class="pulse-dot"></span><span>Database: <strong>Connected</strong></span>`;
                 } else {
                     dbStatusPill.className = "status-pill warning";
-                    dbStatusPill.innerHTML = `<span class="pulse-dot warning"></span><span>Supabase: <strong>Standby</strong></span>`;
+                    dbStatusPill.innerHTML = `<span class="pulse-dot warning"></span><span>Database: <strong>Standby</strong></span>`;
                 }
             }
 
             if (testResultMsg) {
-                testResultMsg.innerHTML = `<span style="color: #34d399;">✓ Connected to ${AppState.apiBaseUrl} (${latency}ms)</span><br><small style="color: var(--text-muted);">Database: ${data.database.message}</small>`;
+                testResultMsg.innerHTML = `<span style="color: #34d399;">✓ Connected (${latency}ms)</span>`;
             }
 
             updateApiSnippets();
@@ -102,11 +102,11 @@ async function testBackendConnection(showToast = true) {
         if (statusPill) {
             statusPill.className = "status-pill danger";
             statusPill.querySelector(".pulse-dot").className = "pulse-dot danger";
-            if (statusText) statusText.innerHTML = `Backend: <strong>Offline</strong>`;
+            if (statusText) statusText.innerHTML = `AI Core: <strong>Offline</strong>`;
         }
 
         if (testResultMsg) {
-            testResultMsg.innerHTML = `<span style="color: #fb7185;">✗ Could not reach ${AppState.apiBaseUrl}. Ensure Render Web Service is running.</span>`;
+            testResultMsg.innerHTML = `<span style="color: #fb7185;">✗ Could not reach backend server.</span>`;
         }
         return false;
     }
@@ -392,7 +392,7 @@ async function sendAudioForPrediction(audioBlobOrFile, filename) {
         }
     } catch (err) {
         console.error("API error during predict:", err);
-        alert(`Failed to connect to backend at ${AppState.apiBaseUrl}. Please verify Render service is online.`);
+        alert("Failed to connect to AI engine. Please verify the server is active.");
     }
 }
 
@@ -661,7 +661,7 @@ function initModals() {
                 });
                 const data = await res.json();
                 if (data.status === "success") {
-                    alert("✓ Feedback recorded successfully in Supabase database!");
+                    alert("✓ Feedback recorded successfully!");
                     closeModal("modal-feedback");
                     loadSupabaseHistory();
                 } else {
