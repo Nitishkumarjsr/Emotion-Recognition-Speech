@@ -1,0 +1,29 @@
+# ============================================================================
+# VoxEmotion AI - Render Web Service Blueprint (render.yaml)
+# ============================================================================
+# To deploy with Render Blueprints:
+# 1. Connect your GitHub repository to Render (https://dashboard.render.com).
+# 2. Click "New" -> "Blueprint".
+# 3. Select this repository and click "Apply".
+# ============================================================================
+
+services:
+  - type: web
+    name: voxemotion-backend
+    runtime: python
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120
+    healthCheckPath: /api/health
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.8
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: SUPABASE_URL
+        sync: false
+        # Set this to your Supabase project URL (e.g., https://your-project.supabase.co)
+      - key: SUPABASE_KEY
+        sync: false
+        # Set this to your Supabase Anon/Service Role Key

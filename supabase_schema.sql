@@ -1,0 +1,139 @@
+-- ============================================================================
+-- VoxEmotion AI: Speech Emotion Recognition & Acoustic Intelligence
+-- Supabase Database Schema & Migration Script
+-- ============================================================================
+-- Instructions:
+-- 1. Open your Supabase Project Dashboard (https://app.supabase.com).
+-- 2. Navigate to "SQL Editor" in the left sidebar.
+-- 3. Paste and execute this entire script.
+-- ============================================================================
+
+-- Enable UUID extension if not enabled
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- 1. PREDICTIONS TABLE
+-- Stores all acoustic inference events, detected emotions, confidence scores,
+-- and biometrics extracted from voice recordings.
+CREATE TABLE IF NOT EXISTS public.predictions (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
+    filename TEXT DEFAULT 'voice_recording.wav',
+    predicted_emotion TEXT NOT NULL,
+    confidence NUMERIC(5, 2) NOT NULL,
+    valence NUMERIC(4, 2) NOT NULL,
+    arousal NUMERIC(4, 2) NOT NULL,
+    secondary_emotion TEXT,
+    secondary_confidence NUMERIC(5, 2),
+    acoustic_features JSONB DEFAULT '{}'::jsonb,
+    model_probabilities JSONB DEFAULT '{}'::jsonb,
+    models_consensus JSONB DEFAULT '{}'::jsonb,
+    session_id TEXT
+);
+
+-- 2. EMOTION FEEDBACK TABLE
+-- Stores user feedback, ratings (1-5 stars), and ground-truth corrections.
+CREATE TABLE IF NOT EXISTS public.emotion_feedback (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    prediction_id UUID REFERENCES public.predictions(id) ON DELETE CASCADE,
+    user_feedback TEXT,
+    user_corrected_emotion TEXT,
+    rating INTEGER CHECK (rating >= 1 AND rating <= 5),
+    created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- 3. PRESET REFERENCE SAMPLES TABLE
+-- Reference emotion library metadata.
+CREATE TABLE IF NOT EXISTS public.preset_samples (
+    id TEXT PRIMARY KEY,
+    label TEXT NOT NULL,
+    emoji TEXT NOT NULL,
+    audio_url TEXT NOT NULL,
+    description TEXT,
+    valence NUMERIC(4, 2) NOT NULL,
+    arousal NUMERIC(4, 2) NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- ============================================================================
+-- INDEXES FOR FAST QUERYING & DASHBOARDS
+-- ============================================================================
+CREATE INDEX IF NOT EXISTS idx_predictions_created_at ON public.predictions (created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_predictions_predicted_emotion ON public.predictions (predicted_emotion);
+CREATE INDEX IF NOT EXISTS idx_predictions_confidence ON public.predictions (confidence DESC);
+CREATE INDEX IF NOT EXISTS idx_feedback_prediction_id ON public.emotion_feedback (prediction_id);
+
+-- ============================================================================
+-- ROW LEVEL SECURITY (RLS) POLICIES
+-- ============================================================================
+ALTER TABLE public.predictions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.emotion_feedback ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.preset_samples ENABLE ROW LEVEL SECURITY;
+
+-- Allow public read access to predictions for the live feed
+CREATE POLICY "Allow public read access to predictions"
+    ON public.predictions
+    FOR SELECT
+    USING (true);
+
+-- Allow anonymous insertion of prediction records from backend / client
+CREATE POLICY "Allow public insert to predictions"
+    ON public.predictions
+    FOR INSERT
+    WITH CHECK (true);
+
+-- Allow public insert and read for emotion feedback
+CREATE POLICY "Allow public read feedback"
+    ON public.emotion_feedback
+    FOR SELECT
+    USING (true);
+
+CREATE POLICY "Allow public insert feedback"
+    ON public.emotion_feedback
+    FOR INSERT
+    WITH CHECK (true);
+
+-- Allow public read for preset samples
+CREATE POLICY "Allow public read presets"
+    ON public.preset_samples
+    FOR SELECT
+    USING (true);
+
+-- ============================================================================
+-- SEED DATA: REFERENCE SAMPLES
+-- ============================================================================
+INSERT INTO public.preset_samples (id, label, emoji, audio_url, description, valence, arousal)
+VALUES
+    ('neutral',   'Neutral',   '😐', '/static/samples/neutral_sample.wav',   'Standard baseline speech with stable pitch and moderate dynamics.', 0.00,  0.00),
+    ('calm',      'Calm',      '😌', '/static/samples/calm_sample.wav',      'Relaxed vocal inflection, low energy, and smooth harmonic flow.',    0.45, -0.40),
+    ('happy',     'Happy',     '😄', '/static/samples/happy_sample.wav',     'Elevated dynamic pitch variation, high spectral brightness.',        0.85,  0.65),
+    ('sad',       'Sad',       '😢', '/static/samples/sad_sample.wav',       'Subdued loudness, downward pitch trend, lower spectral energy.',    -0.70, -0.60),
+    ('angry',     'Angry',     '😡', '/static/samples/angry_sample.wav',     'Sharp attack, high vocal intensity, high RMS energy and harmonics.', -0.65,  0.90),
+    ('fearful',   'Fearful',   '😨', '/static/samples/fearful_sample.wav',   'High fundamental pitch jitter, wide dynamic range, and vocal tension.', -0.75, 0.70),
+    ('disgust',   'Disgust',   '🤢', '/static/samples/disgust_sample.wav',   'Guttural vocal quality, lower pitch with distinctive spectral tilt.', -0.80, -0.10),
+    ('surprised', 'Surprised', '😲', '/static/samples/surprised_sample.wav', 'Sudden upward pitch leap and fast vocal onset.',                     0.35,  0.80)
+ON CONFLICT (id) DO NOTHING;
+
+-- ============================================================================
+-- SEED DATA: SAMPLE INITIAL PREDICTION LOGS
+-- ============================================================================
+INSERT INTO public.predictions (filename, predicted_emotion, confidence, valence, arousal, secondary_emotion, secondary_confidence, acoustic_features, model_probabilities)
+VALUES
+    ('happy_sample.wav', 'happy', 94.80, 0.85, 0.65, 'surprised', 4.20, '{"pitch_f0_mean": 210.0, "rms_energy": 0.095, "spectral_centroid": 2200.0, "zcr_mean": 0.09}'::jsonb, '{"happy": 94.8, "surprised": 4.2, "calm": 1.0}'::jsonb),
+    ('angry_sample.wav', 'angry', 96.20, -0.65, 0.90, 'fearful', 2.80, '{"pitch_f0_mean": 240.0, "rms_energy": 0.160, "spectral_centroid": 2800.0, "zcr_mean": 0.14}'::jsonb, '{"angry": 96.2, "fearful": 2.8, "disgust": 1.0}'::jsonb),
+    ('calm_sample.wav', 'calm', 91.50, 0.45, -0.40, 'neutral', 6.50, '{"pitch_f0_mean": 115.0, "rms_energy": 0.030, "spectral_centroid": 1100.0, "zcr_mean": 0.03}'::jsonb, '{"calm": 91.5, "neutral": 6.5, "sad": 2.0}'::jsonb)
+ON CONFLICT DO NOTHING;
+
+-- ============================================================================
+-- HELPER VIEW: EMOTION ANALYTICS SUMMARY
+-- ============================================================================
+CREATE OR REPLACE VIEW public.vw_emotion_analytics AS
+SELECT 
+    predicted_emotion,
+    COUNT(*) AS total_count,
+    ROUND(AVG(confidence), 2) AS avg_confidence,
+    ROUND(AVG(valence), 2) AS avg_valence,
+    ROUND(AVG(arousal), 2) AS avg_arousal,
+    MAX(created_at) AS last_detected_at
+FROM public.predictions
+GROUP BY predicted_emotion
+ORDER BY total_count DESC;
